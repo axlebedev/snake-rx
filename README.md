@@ -84,8 +84,6 @@ cd dist && http-server
 ### Linters
 
 - [`eslint`](https://github.com/eslint/eslint) - Enforce styleguide across application
-- [`eslint-config-prettier`](https://github.com/prettier/eslint-config-prettier) - Implement prettier rules
-  - - [`prettier`](https://github.com/prettier/prettier) - Dependency for `prettier-webpack-plugin` plugin
 - [`eslint-import-resolver-webpack`](https://github.com/benmosher/eslint-plugin-import/tree/master/resolvers/webpack) - Throw exceptions for import/export in webpack
 
 ## Author
