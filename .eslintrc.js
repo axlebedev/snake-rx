@@ -1,5 +1,18 @@
 module.exports = {
-  'rules': {
+  parser: '@babel/eslint-parser',
+
+  extends: [
+    'airbnb',
+  ],
+
+  plugins: ['babel'],
+
+  globals: {
+    __DEV__: true,
+    __CLIENT__: true,
+  },
+
+  rules: {
     'prefer-template': 'off',
     'no-var': 1,
     'no-unused-vars': 1,
@@ -12,17 +25,16 @@ module.exports = {
     'arrow-body-style': 1,
     'import/no-extraneous-dependencies': ['off', { 'devDependencies': false }]
   },
-  'ignorePatterns': ['dist', 'node_modules', 'webpack.*', 'config/paths.js'],
-  'env': {
+  ignorePatterns: ['dist', 'node_modules', 'webpack.*', 'config/paths.js'],
+  env: {
     'browser': true,
     'es6': true
   },
-  'extends': ['eslint:recommended'],
-  'parserOptions': {
+  parserOptions: {
     'ecmaVersion': 2021,
     'sourceType': 'module'
   },
-  'settings': {
+  settings: {
     'import/resolver': {
       'webpack': {
         'config': 'config/webpack.common.js'

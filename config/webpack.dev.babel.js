@@ -1,8 +1,8 @@
-const { merge } = require('webpack-merge')
+import { merge } from 'webpack-merge'
 
-const common = require('./webpack.common')
+import common from './webpack.common.babel'
 
-module.exports = merge(common, {
+export default merge(common, {
   // Set the mode to development or production
   mode: 'development',
 

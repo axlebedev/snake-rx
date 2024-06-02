@@ -1,10 +1,10 @@
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+import { CleanWebpackPlugin } from 'clean-webpack-plugin'
+import CopyWebpackPlugin from 'copy-webpack-plugin'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
 
-const paths = require('./paths')
+import paths from './paths'
 
-module.exports = {
+export default {
   // Where webpack looks to start building the bundle
   entry: [paths.src + '/index.js'],
 
