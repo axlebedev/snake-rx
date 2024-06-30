@@ -1,5 +1,5 @@
 import { getFuncs } from './utilsForDraw'
-import { colors, cellSize } from './boardConfig'
+import { colors, cellSize, snakeWidth } from './boardConfig'
 
 const drawHead = ({ x, y, snakeSegmensts, canvas }) => {
   const ctx = canvas.getContext('2d')
@@ -8,16 +8,18 @@ const drawHead = ({ x, y, snakeSegmensts, canvas }) => {
   const head = snakeSegmensts[0]
   const body = snakeSegmensts[1]
 
+  const snw2 = (1 - snakeWidth) / 2
+
   ctx.beginPath()
-  ctx.arc(x(head.left + 0.5), y(head.top + 0.5), cellSize / 2, 0, 2 * Math.PI)
+  ctx.arc(x(head.left + 0.5), y(head.top + 0.5), cellSize * snakeWidth / 2, 0, 2 * Math.PI)
   if (head.top < body.top) { // up
-    ctx.rect(x(head.left), y(head.top + 0.5), cellSize, cellSize / 2)
+    ctx.rect(x(head.left + snw2), y(head.top + 0.5 + snw2), cellSize * snakeWidth, cellSize / 2)
   } else if (head.top > body.top) { // down
-    ctx.rect(x(head.left), y(head.top), cellSize, cellSize / 2)
+    ctx.rect(x(head.left + snw2), y(head.top + snw2), cellSize * snakeWidth, cellSize / 2)
   } else if (head.left < body.left) { // left
-    ctx.rect(x(head.left + 0.5), y(head.top), cellSize / 2, cellSize)
+    ctx.rect(x(head.left + 0.5 + snw2), y(head.top + snw2), cellSize / 2, cellSize * snakeWidth)
   } else if (head.left > body.left) { // right
-    ctx.rect(x(head.left), y(head.top), cellSize / 2, cellSize)
+    ctx.rect(x(head.left + snw2), y(head.top + snw2), cellSize / 2, cellSize * snakeWidth)
   }
   ctx.fill()
 }
@@ -54,11 +56,36 @@ const drawHead = ({ x, y, snakeSegmensts, canvas }) => {
 const drawMiddle = ({ canvas, snakeSegmensts, x, y }) => {
   const ctx = canvas.getContext('2d')
   ctx.fillStyle = colors.snake
+  const snw2 = (1 - snakeWidth) / 2
 
+  ctx.beginPath()
+  // body segments
   for (let i = 1; i < snakeSegmensts.length - 1; i++) {
     const { top, left } = snakeSegmensts[i]
-    ctx.fillRect(x(left), y(top), cellSize, cellSize)
+    ctx.rect(x(left + snw2), y(top + snw2), cellSize * snakeWidth, cellSize * snakeWidth)
   }
+  // connections
+  for (let i = 0; i < snakeSegmensts.length - 1; i++) {
+    const begin = snakeSegmensts[i]
+    const end = snakeSegmensts[i + 1]
+
+    if (begin.left === end.left) {
+      ctx.rect(
+        x(begin.left + snw2),
+        y(begin.top + 1 - snw2),
+        cellSize * snakeWidth,
+        cellSize * (1 - snakeWidth),
+      )
+    } else {
+      ctx.rect(
+        x(begin.left + 1 - snw2),
+        y(begin.top + snw2),
+        cellSize * (1 - snakeWidth),
+        cellSize * snakeWidth,
+      )
+    }
+  }
+  ctx.fill()
 }
 
 export const drawSnake = ({ canvas, snakeSegmensts }) => {
