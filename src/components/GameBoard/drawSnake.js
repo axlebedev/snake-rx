@@ -58,12 +58,23 @@ const drawMiddle = ({ canvas, snakeSegmensts, x, y }) => {
   ctx.fillStyle = colors.snake
   const snw2 = (1 - snakeWidth) / 2
 
-  ctx.beginPath()
   // body segments
   for (let i = 1; i < snakeSegmensts.length - 1; i++) {
-    const { top, left } = snakeSegmensts[i]
-    ctx.rect(x(left + snw2), y(top + snw2), cellSize * snakeWidth, cellSize * snakeWidth)
+    drawHead({
+      x,
+      y,
+      snakeSegmensts: snakeSegmensts.slice(i - 1, i + 1).reverse(),
+      canvas,
+    })
+    drawHead({
+      x,
+      y,
+      snakeSegmensts: snakeSegmensts.slice(i, i + 2),
+      canvas,
+    })
   }
+
+  ctx.beginPath()
   // connections
   for (let i = 0; i < snakeSegmensts.length - 1; i++) {
     const begin = snakeSegmensts[i]
@@ -72,13 +83,13 @@ const drawMiddle = ({ canvas, snakeSegmensts, x, y }) => {
     if (begin.left === end.left) {
       ctx.rect(
         x(begin.left + snw2),
-        y(begin.top + 1 - snw2),
+        y((begin.top + end.top) / 2 - snw2),
         cellSize * snakeWidth,
         cellSize * (1 - snakeWidth),
       )
     } else {
       ctx.rect(
-        x(begin.left + 1 - snw2),
+        x((begin.left + end.left) / 2 - snw2),
         y(begin.top + snw2),
         cellSize * (1 - snakeWidth),
         cellSize * snakeWidth,
@@ -92,11 +103,6 @@ export const drawSnake = ({ canvas, snakeSegmensts }) => {
   const { x, y } = getFuncs(canvas)
 
   drawHead({ canvas, x, y, snakeSegmensts })
-  drawMiddle({
-    canvas,
-    snakeSegmensts: snakeSegmensts,
-    x,
-    y,
-  })
+  drawMiddle({ canvas, snakeSegmensts, x, y })
   drawHead({ canvas, x, y, snakeSegmensts: snakeSegmensts.slice(-2).reverse() })
 }

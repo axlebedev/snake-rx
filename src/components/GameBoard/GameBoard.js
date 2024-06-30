@@ -16,6 +16,9 @@ const snakeSegmensts = [
   { left: 7, top: 6 },
   { left: 8, top: 6 },
   { left: 9, top: 6 },
+  { left: 9, top: 7 },
+  { left: 8, top: 7 },
+  { left: 7, top: 7 },
 ]
 export const GameBoard = () => {
   const canvasRef = useRef(null)
