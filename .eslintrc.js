@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   parser: '@babel/eslint-parser',
 
   extends: [
@@ -6,7 +6,7 @@ export default {
     'eslint-config-google',
   ],
 
-  plugins: ['babel'],
+  plugins: ['babel', 'react'],
 
   globals: {
     __DEV__: true,
@@ -15,22 +15,64 @@ export default {
 
   rules: {
     'prefer-template': 'off',
-    'no-var': 1,
-    'no-unused-vars': 1,
-    'camelcase': 1,
-    'no-nested-ternary': 1,
-    'no-console': 1,
-    'no-template-curly-in-string': 1,
-    'no-self-compare': 1,
+    'no-var': 'error',
+    'no-unused-vars': 'error',
+    'camelcase': 'error',
+    'no-nested-ternary': 'error',
+    'no-template-curly-in-string': 'error',
+    'no-self-compare': 'error',
     'import/prefer-default-export': 0,
 
-    'object-curly-spacing': [2, 'always'],
-    'arrow-body-style': 1,
-    'import/no-extraneous-dependencies': ['off', { 'devDependencies': false }],
-    'max-len': [2, 100],
-    'semi': [2, 'never'],
+    // Recommend not to leave any console.log in your code
+    // Use console.error, console.warn and console.info instead
+    // https://eslint.org/docs/rules/no-console
+    'no-console': [
+      'warn',
+      {
+        allow: ['warn', 'error', 'info'],
+      },
+    ],
 
-    'function-component-definition': [2, { 'namedComponents': 'arrow-function' }],
+    // Prefer destructuring from arrays and objects
+    // http://eslint.org/docs/rules/prefer-destructuring
+    'prefer-destructuring': [
+      'error',
+      {
+        VariableDeclarator: {
+          array: false,
+          object: true,
+        },
+        AssignmentExpression: {
+          array: false,
+          object: false,
+        },
+      },
+      {
+        enforceForRenamedProperties: false,
+      },
+    ],
+
+    // Allow .js files to use JSX syntax
+    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-filename-extension.md
+    'react/jsx-filename-extension': ['error', { extensions: ['.js', '.jsx'] }],
+
+    // все if должны быть с фигурными скобками
+    'curly': ['error', 'all'],
+
+    'object-curly-spacing': ['error', 'always'],
+    'arrow-body-style': ['error', 'always'],
+    // 'import/no-extraneous-dependencies': ['off', { 'devDependencies': false }],
+    'max-len': ['error', { 'code': 100, 'ignoreComments': true }],
+    'semi': ['error', 'never'],
+    'no-unused-vars': 'error',
+    'react/function-component-definition': [
+      2,
+      {
+        namedComponents: 'arrow-function',
+        unnamedComponents: 'arrow-function',
+      },
+    ],
+    'indent': ['error', 2]
   },
   ignorePatterns: ['dist', 'node_modules', 'webpack.*', 'config/paths.js'],
   env: {
