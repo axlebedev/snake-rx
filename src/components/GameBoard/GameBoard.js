@@ -6,6 +6,7 @@ import {
 } from './boardConfig'
 import { drawGrid } from './drawGrid'
 import { drawSnake } from './drawSnake'
+import { drawApple } from './drawApple'
 import './GameBoard.scss'
 
 const snakeSegmensts = [
@@ -22,6 +23,7 @@ export const GameBoard = () => {
   useEffect(() => {
     drawGrid(canvasRef.current)
     drawSnake({ canvas: canvasRef.current, snakeSegmensts })
+    drawApple({ canvas: canvasRef.current, applePos: { top: 10, left: 10 } })
   }, [])
 
   return (

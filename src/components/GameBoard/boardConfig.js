@@ -8,4 +8,5 @@ export const colors = {
   background: '#666666',
   grid: '#DDDDDD',
   snake: '#90ee90',
+  apple: '#ed2939',
 }
