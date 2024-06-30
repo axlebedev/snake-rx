@@ -7,4 +7,5 @@ export const boardHeight = cellSize * cellNum
 export const colors = {
   background: '#666666',
   grid: '#DDDDDD',
+  snake: '#90ee90',
 }

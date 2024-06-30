@@ -1,16 +1,8 @@
-import { scaleLinear } from 'd3'
-
 import { colors, cellNum } from './boardConfig'
+import { getFuncs } from './utilsForDraw'
 
 export const drawGrid = (canvas) => {
-  const x = scaleLinear()
-    .domain([0, cellNum])
-    .range([0, canvas.width])
-
-  const y = scaleLinear()
-    .domain([0, cellNum])
-    .range([0, canvas.height])
-
+  const { x, y } = getFuncs(canvas)
 
   const ctx = canvas.getContext('2d')
 
