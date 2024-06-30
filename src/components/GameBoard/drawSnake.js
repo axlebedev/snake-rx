@@ -22,11 +22,39 @@ const drawHead = ({ x, y, snakeSegmensts, canvas }) => {
   ctx.fill()
 }
 
-const drawSegments = ({ canvas, snakeSegmensts, x, y }) => {
+const drawTail = ({ x, y, snakeSegmensts, canvas }) => {
   const ctx = canvas.getContext('2d')
   ctx.fillStyle = colors.snake
 
-  for (let i = 0; i < snakeSegmensts.length; i++) {
+  const tail = snakeSegmensts[snakeSegmensts.length - 1]
+  const body = snakeSegmensts[snakeSegmensts.length - 2]
+
+  ctx.beginPath()
+  if (tail.top < body.top) { // down
+    ctx.moveTo(x(tail.left), y(tail.top))
+    ctx.lineTo(x(tail.left + 1), y(tail.top))
+    ctx.lineTo(x(tail.left + 0.5), y(tail.top + 1))
+  } else if (tail.top > body.top) { // up
+    ctx.moveTo(x(tail.left + 0.5), y(tail.top))
+    ctx.lineTo(x(tail.left + 1), y(tail.top + 1))
+    ctx.lineTo(x(tail.left), y(tail.top + 1))
+  } else if (tail.left < body.left) { // right
+    ctx.moveTo(x(tail.left), y(tail.top + 0.5))
+    ctx.lineTo(x(tail.left + 1), y(tail.top))
+    ctx.lineTo(x(tail.left + 1), y(tail.top + 1))
+  } else if (tail.left > body.left) { // left
+    ctx.moveTo(x(tail.left), y(tail.top))
+    ctx.lineTo(x(tail.left + 1), y(tail.top + 0.5))
+    ctx.lineTo(x(tail.left), y(tail.top + 1))
+  }
+  ctx.fill()
+}
+
+const drawMiddle = ({ canvas, snakeSegmensts, x, y }) => {
+  const ctx = canvas.getContext('2d')
+  ctx.fillStyle = colors.snake
+
+  for (let i = 1; i < snakeSegmensts.length - 1; i++) {
     const { top, left } = snakeSegmensts[i]
     ctx.fillRect(x(left), y(top), cellSize, cellSize)
   }
@@ -36,10 +64,11 @@ export const drawSnake = ({ canvas, snakeSegmensts }) => {
   const { x, y } = getFuncs(canvas)
 
   drawHead({ canvas, x, y, snakeSegmensts })
-  drawSegments({
+  drawMiddle({
     canvas,
-    snakeSegmensts: snakeSegmensts.slice(1),
+    snakeSegmensts: snakeSegmensts,
     x,
     y,
   })
+  drawTail({ canvas, x, y, snakeSegmensts })
 }
