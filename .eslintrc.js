@@ -3,10 +3,16 @@ module.exports = {
 
   extends: [
     // 'airbnb',
-    'eslint-config-google',
+    'google',
   ],
 
   plugins: ['babel', 'react'],
+
+  settings: {
+    react: {
+      version: 'detect',
+    },
+  },
 
   globals: {
     __DEV__: true,
@@ -72,7 +78,10 @@ module.exports = {
         unnamedComponents: 'arrow-function',
       },
     ],
-    'indent': ['error', 2]
+    'indent': ['error', 2],
+    'react/jsx-uses-vars': 'error',
+    'react/jsx-uses-react': 'error',
+    'no-undef': 'error',
   },
   ignorePatterns: ['dist', 'node_modules', 'webpack.*', 'config/paths.js'],
   env: {
@@ -81,6 +90,9 @@ module.exports = {
   },
   parserOptions: {
     'ecmaVersion': 2021,
+    'ecmaFeatures': {
+      'jsx': true,
+    },
     'sourceType': 'module',
   },
   settings: {
