@@ -9,6 +9,6 @@ export const drawApple = ({ canvas, applePos }) => {
 
   const { top, left } = applePos
   ctx.beginPath()
-  ctx.arc(x(left + 0.5), y(top + 0.5), cellSize / 1.5, 0, 2 * Math.PI)
+  ctx.arc(x(left), y(top), cellSize / 1.5, 0, 2 * Math.PI)
   ctx.fill()
 }
