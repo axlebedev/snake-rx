@@ -24,6 +24,8 @@ export const GameBoard = () => {
   const canvasRef = useRef(null)
 
   useEffect(() => {
+    canvasRef.current.getContext('2d').translate(0.5, 0.5)
+
     drawGrid(canvasRef.current)
     drawSnake({ canvas: canvasRef.current, snakeSegmensts })
     drawApple({ canvas: canvasRef.current, applePos: { top: 10, left: 10 } })
