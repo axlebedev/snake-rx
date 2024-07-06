@@ -1,4 +1,5 @@
-import { colors, cellNum } from './boardConfig'
+import { colors, cellNum } from '@/boardConfig'
+
 import { getGridFuncs } from './utilsForDraw'
 
 export const drawGrid = (canvas) => {

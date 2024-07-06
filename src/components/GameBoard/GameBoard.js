@@ -1,34 +1,30 @@
 import React, { useEffect, useRef } from 'react'
 
+import { snakeSegments$ } from '@/store/snakeSegments.store'
+import { apple } from '@/store/apple.store'
 import {
   boardWidth,
   boardHeight,
-} from './boardConfig'
-import { drawGrid } from './drawGrid'
-import { drawSnake } from './drawSnake'
-import { drawApple } from './drawApple'
+} from '@/boardConfig'
+
+import { drawGrid } from './draw/drawGrid'
+import { drawSnake } from './draw/drawSnake'
+import { drawApple } from './draw/drawApple'
 import './GameBoard.scss'
 
-const snakeSegmensts = [
-  { left: 5, top: 5 },
-  { left: 5, top: 6 },
-  { left: 6, top: 6 },
-  { left: 7, top: 6 },
-  { left: 8, top: 6 },
-  { left: 9, top: 6 },
-  { left: 9, top: 7 },
-  { left: 8, top: 7 },
-  { left: 7, top: 7 },
-]
 export const GameBoard = () => {
   const canvasRef = useRef(null)
 
   useEffect(() => {
     canvasRef.current.getContext('2d').translate(0.5, 0.5)
 
-    drawGrid(canvasRef.current)
-    drawSnake({ canvas: canvasRef.current, snakeSegmensts })
-    drawApple({ canvas: canvasRef.current, applePos: { top: 10, left: 10 } })
+    snakeSegments$
+      .subscribe((snakeSegments) => {
+        console.log('%c11111', 'background:#0090ff', 'snakeSegments=', snakeSegments)
+        drawGrid(canvasRef.current)
+        drawSnake({ canvas: canvasRef.current, snakeSegments })
+        drawApple({ canvas: canvasRef.current, applePos: apple })
+      })
   }, [])
 
   return (

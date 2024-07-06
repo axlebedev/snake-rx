@@ -1,6 +1,6 @@
 import { scaleLinear } from 'd3'
 
-import { cellNum } from './boardConfig'
+import { cellNum } from '@/boardConfig'
 
 export const getFuncs = (canvas) => {
   const cellWidth2 = canvas.width / cellNum / 2

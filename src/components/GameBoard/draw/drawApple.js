@@ -1,5 +1,6 @@
+import { colors, cellSize } from '@/boardConfig'
+
 import { getFuncs } from './utilsForDraw'
-import { colors, cellSize } from './boardConfig'
 
 export const drawApple = ({ canvas, applePos }) => {
   const { x, y } = getFuncs(canvas)
