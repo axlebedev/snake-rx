@@ -3,19 +3,16 @@ import { colors, cellSize, snakeWidth } from '@/boardConfig'
 import { getFuncs } from './utilsForDraw'
 
 const drawBodyCircles = ({ ctx, snakeSegments, x, y }) => {
-  console.log('%c11111', 'background:#ff00ac', Date.now() % 10000, 'drawSnake:5 drawBodyCircles', snakeSegments)
   const radius = snakeWidth * cellSize / 2
   ctx.fillStyle = colors.snake
   snakeSegments.forEach(({ top, left }) => {
     ctx.beginPath()
-    console.log('%c11111', 'background:#ff00ac', 'x(left)=', x(left), 'y(top)=', y(top))
     ctx.arc(x(left), y(top), radius, 0, 2 * Math.PI)
     ctx.fill()
   })
 }
 
 const drawBodyConnections = ({ ctx, snakeSegments, x, y }) => {
-  console.log('%c11111', 'background:#ff00ac', Date.now() % 10000, 'drawSnake:16 drawBodyConnections', snakeSegments)
   const radius = snakeWidth * cellSize / 2
 
   ctx.fillStyle = colors.snake
