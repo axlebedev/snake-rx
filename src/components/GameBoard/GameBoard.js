@@ -9,6 +9,8 @@ import {
   boardHeight,
 } from '@/boardConfig'
 
+import { Message } from '../Message/Message'
+
 import { redrawCanvas } from './draw/redrawCanvas'
 import './GameBoard.scss'
 
@@ -51,11 +53,14 @@ export const GameBoard = () => {
   }, [])
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="GameBoard"
-      width={boardWidth}
-      height={boardHeight}
-    />
+    <div style={{ width: boardWidth, height: boardHeight, position: 'relative' }}>
+      <canvas
+        ref={canvasRef}
+        className="GameBoard"
+        width={boardWidth}
+        height={boardHeight}
+      />
+      <Message />
+    </div>
   )
 }

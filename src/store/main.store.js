@@ -5,6 +5,7 @@ import { directions } from '@/consts'
 import { snakeSegments$ } from './snakeSegments.store'
 import { direction$ } from './direction.store'
 import { apple$ } from './apple.store'
+import { message$ } from './message.store'
 
 import { doNextTurn, getNewApple } from './logic'
 
@@ -38,6 +39,7 @@ export const startGame = () => {
       if (nextTurnValues.gameover) {
         intervalSubscription.unsubscribe()
         keyDownsSubscription.unsubscribe()
+        message$.next('Game over!')
         return
       }
 
