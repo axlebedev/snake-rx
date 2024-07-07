@@ -82,6 +82,7 @@ module.exports = {
     'react/jsx-uses-vars': 'error',
     'react/jsx-uses-react': 'error',
     'no-undef': 'error',
+    'operator-linebreak': ['error', 'before'],
   },
   ignorePatterns: ['dist', 'node_modules', 'webpack.*', 'config/paths.js'],
   env: {
