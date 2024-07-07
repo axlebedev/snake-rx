@@ -39,7 +39,7 @@ export const startGame = () => {
       if (nextTurnValues.gameover) {
         intervalSubscription.unsubscribe()
         keyDownsSubscription.unsubscribe()
-        message$.next('Game over!')
+        message$.next('YOU DIED')
         return
       }
 
@@ -50,7 +50,7 @@ export const startGame = () => {
       snakeSegments$.next(nextTurnValues.snakeSegments)
       direction$.next({ current: direction, next: direction })
 
-      const nextValue = 1000 - Math.sqrt(snakeSegments.length) * 50
+      const nextValue = 1000 - Math.sqrt(snakeSegments.length) * 100
       setTimeout(() => {
         mainInterval$.next(nextValue)
       }, nextValue)
