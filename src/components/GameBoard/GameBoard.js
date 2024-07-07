@@ -1,16 +1,14 @@
 import React, { useEffect, useRef } from 'react'
 
 import { snakeSegments$ } from '@/store/snakeSegments.store'
-import { apple } from '@/store/apple.store'
+import { apple$ } from '@/store/apple.store'
 import { startMain } from '@/store/main.store'
 import {
   boardWidth,
   boardHeight,
 } from '@/boardConfig'
 
-import { drawGrid } from './draw/drawGrid'
-import { drawSnake } from './draw/drawSnake'
-import { drawApple } from './draw/drawApple'
+import { redrawCanvas } from './draw/redrawCanvas'
 import './GameBoard.scss'
 
 export const GameBoard = () => {
@@ -22,10 +20,12 @@ export const GameBoard = () => {
 
     snakeSegments$
       .subscribe((snakeSegments) => {
-        console.log('%c11111', 'background:#0090ff', 'snakeSegments=', snakeSegments)
-        drawGrid(canvasRef.current)
-        drawSnake({ canvas: canvasRef.current, snakeSegments })
-        drawApple({ canvas: canvasRef.current, applePos: apple })
+        redrawCanvas({ canvas: canvasRef.current, snakeSegments, apple: apple$.value })
+      })
+
+    apple$
+      .subscribe((apple) => {
+        redrawCanvas({ canvas: canvasRef.current, snakeSegments: snakeSegments$.value, apple })
       })
   }, [])
 
