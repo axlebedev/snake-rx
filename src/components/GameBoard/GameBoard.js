@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react'
 
 import { snakeSegments$ } from '@/store/snakeSegments.store'
 import { apple } from '@/store/apple.store'
+import { startMain } from '@/store/main.store'
 import {
   boardWidth,
   boardHeight,
@@ -17,6 +18,7 @@ export const GameBoard = () => {
 
   useEffect(() => {
     canvasRef.current.getContext('2d').translate(0.5, 0.5)
+    startMain()
 
     snakeSegments$
       .subscribe((snakeSegments) => {
