@@ -28,3 +28,7 @@ export const getGridFuncs = (canvas) => {
 
   return { x, y }
 }
+
+export const drawCircle = (ctx, left, top, radius) => {
+  ctx.arc(left, top, radius, 0, Math.PI * 2)
+}

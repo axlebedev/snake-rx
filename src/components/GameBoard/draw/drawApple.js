@@ -1,6 +1,6 @@
 import { colors, cellSize } from '@/boardConfig'
 
-import { getFuncs } from './utilsForDraw'
+import { getFuncs, drawCircle } from './utilsForDraw'
 
 export const drawApple = ({ canvas, applePos }) => {
   const { x, y } = getFuncs(canvas)
@@ -10,6 +10,6 @@ export const drawApple = ({ canvas, applePos }) => {
 
   const { top, left } = applePos
   ctx.beginPath()
-  ctx.arc(x(left), y(top), cellSize / 1.5, 0, 2 * Math.PI)
+  drawCircle(ctx, x(left), y(top), cellSize / 1.5)
   ctx.fill()
 }

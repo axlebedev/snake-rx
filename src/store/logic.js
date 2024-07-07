@@ -1,4 +1,4 @@
-import { random, isEqual } from 'lodash'
+import { last, random, isEqual } from 'lodash'
 
 import { directions } from '@/consts'
 import { cellNum } from '@/boardConfig'
@@ -17,7 +17,7 @@ const getNewSegment = ({ head, direction }) => {
 }
 
 const checkIsSnakeValid = ({ snakeSegments }) => {
-  const head = snakeSegments[snakeSegments.length - 1]
+  const head = last(snakeSegments)
   const isSnakeInsideOfBoard = (
     head.left > 0
     && head.left <= cellNum
@@ -38,7 +38,7 @@ const checkIsSnakeValid = ({ snakeSegments }) => {
 }
 
 export const doNextTurn = ({ snakeSegments, direction, apple }) => {
-  const newSegment = getNewSegment({ head: snakeSegments[snakeSegments.length - 1], direction })
+  const newSegment = getNewSegment({ head: last(snakeSegments), direction })
 
   const isEatApple = newSegment.top === apple.top && newSegment.left === apple.left
   if (isEatApple) {

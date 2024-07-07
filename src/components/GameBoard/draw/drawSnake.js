@@ -3,14 +3,14 @@ import { last } from 'lodash'
 import { directions } from '@/consts'
 import { colors, cellSize, snakeWidth } from '@/boardConfig'
 
-import { getFuncs } from './utilsForDraw'
+import { getFuncs, drawCircle } from './utilsForDraw'
 
 const drawBodyCircles = ({ ctx, snakeSegments, x, y }) => {
   const radius = snakeWidth * cellSize / 2
   ctx.fillStyle = colors.snake
   snakeSegments.forEach(({ top, left }) => {
     ctx.beginPath()
-    ctx.arc(x(left), y(top), radius, 0, 2 * Math.PI)
+    drawCircle(ctx, x(left), y(top), radius)
     ctx.fill()
   })
 }
@@ -50,20 +50,20 @@ const drawEyesWhite = ({ ctx, snakeSegments, nextDirection, x, y }) => {
 
   ctx.beginPath()
   if (nextDirection === directions.top) {
-    ctx.arc(x(left - radius), y(top - radius), radiusPx, 0, 2 * Math.PI)
-    ctx.arc(x(left + radius), y(top - radius), radiusPx, 0, 2 * Math.PI)
+    drawCircle(ctx, x(left - radius), y(top - radius), radiusPx)
+    drawCircle(ctx, x(left + radius), y(top - radius), radiusPx)
   }
   if (nextDirection === directions.bottom) {
-    ctx.arc(x(left - radius), y(top + radius), radiusPx, 0, 2 * Math.PI)
-    ctx.arc(x(left + radius), y(top + radius), radiusPx, 0, 2 * Math.PI)
+    drawCircle(ctx, x(left - radius), y(top + radius), radiusPx)
+    drawCircle(ctx, x(left + radius), y(top + radius), radiusPx)
   }
   if (nextDirection === directions.left) {
-    ctx.arc(x(left - radius), y(top + radius), radiusPx, 0, 2 * Math.PI)
-    ctx.arc(x(left - radius), y(top - radius), radiusPx, 0, 2 * Math.PI)
+    drawCircle(ctx, x(left - radius), y(top + radius), radiusPx)
+    drawCircle(ctx, x(left - radius), y(top - radius), radiusPx)
   }
   if (nextDirection === directions.right) {
-    ctx.arc(x(left + radius), y(top + radius), radiusPx, 0, 2 * Math.PI)
-    ctx.arc(x(left + radius), y(top - radius), radiusPx, 0, 2 * Math.PI)
+    drawCircle(ctx, x(left + radius), y(top + radius), radiusPx)
+    drawCircle(ctx, x(left + radius), y(top - radius), radiusPx)
   }
   ctx.fill()
 }
@@ -78,20 +78,20 @@ const drawEyesBlack = ({ ctx, snakeSegments, nextDirection, x, y }) => {
 
   ctx.beginPath()
   if (nextDirection === directions.top) {
-    ctx.arc(x(left - radius), y(top - radius - radiusBlack * coef), radiusPx, 0, 2 * Math.PI)
-    ctx.arc(x(left + radius), y(top - radius - radiusBlack * coef), radiusPx, 0, 2 * Math.PI)
+    drawCircle(ctx, x(left - radius), y(top - radius - radiusBlack * coef), radiusPx)
+    drawCircle(ctx, x(left + radius), y(top - radius - radiusBlack * coef), radiusPx)
   }
   if (nextDirection === directions.bottom) {
-    ctx.arc(x(left - radius), y(top + radius + radiusBlack * coef), radiusPx, 0, 2 * Math.PI)
-    ctx.arc(x(left + radius), y(top + radius + radiusBlack * coef), radiusPx, 0, 2 * Math.PI)
+    drawCircle(ctx, x(left - radius), y(top + radius + radiusBlack * coef), radiusPx)
+    drawCircle(ctx, x(left + radius), y(top + radius + radiusBlack * coef), radiusPx)
   }
   if (nextDirection === directions.left) {
-    ctx.arc(x(left - radius - radiusBlack * coef), y(top + radius), radiusPx, 0, 2 * Math.PI)
-    ctx.arc(x(left - radius - radiusBlack * coef), y(top - radius), radiusPx, 0, 2 * Math.PI)
+    drawCircle(ctx, x(left - radius - radiusBlack * coef), y(top + radius), radiusPx)
+    drawCircle(ctx, x(left - radius - radiusBlack * coef), y(top - radius), radiusPx)
   }
   if (nextDirection === directions.right) {
-    ctx.arc(x(left + radius + radiusBlack * coef), y(top + radius), radiusPx, 0, 2 * Math.PI)
-    ctx.arc(x(left + radius + radiusBlack * coef), y(top - radius), radiusPx, 0, 2 * Math.PI)
+    drawCircle(ctx, x(left + radius + radiusBlack * coef), y(top + radius), radiusPx)
+    drawCircle(ctx, x(left + radius + radiusBlack * coef), y(top - radius), radiusPx)
   }
   ctx.fill()
 }
