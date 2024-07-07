@@ -14,7 +14,7 @@ export const startGame = () => {
   const sub = mainInterval$
     .subscribe((value) => {
       const snakeSegments = snakeSegments$.value
-      const direction = direction$.value
+      const direction = direction$.value.next
       const apple = apple$.value
       const nextTurnValues = doNextTurn({ snakeSegments, direction, apple })
 
@@ -28,6 +28,8 @@ export const startGame = () => {
       }
 
       snakeSegments$.next(nextTurnValues.snakeSegments)
+      direction$.next({ current: direction, next: direction })
+
       const nextValue = 1000 - Math.sqrt(snakeSegments.length) * 50
       setTimeout(() => {
         mainInterval$.next(nextValue)
@@ -36,18 +38,18 @@ export const startGame = () => {
 
   const keyDowns = fromEvent(document, 'keydown')
     .subscribe((keydown) => {
-      const currentDirection = direction$.value
+      const currentDirection = direction$.value.current
       if (keydown.code === 'ArrowDown' && currentDirection !== directions.top) {
-        direction$.next(directions.bottom)
+        direction$.next({ current: currentDirection, next: directions.bottom })
       }
       if (keydown.code === 'ArrowUp' && currentDirection !== directions.bottom) {
-        direction$.next(directions.top)
+        direction$.next({ current: currentDirection, next: directions.top })
       }
       if (keydown.code === 'ArrowLeft' && currentDirection !== directions.right) {
-        direction$.next(directions.left)
+        direction$.next({ current: currentDirection, next: directions.left })
       }
       if (keydown.code === 'ArrowRight' && currentDirection !== directions.left) {
-        direction$.next(directions.right)
+        direction$.next({ current: currentDirection, next: directions.right })
       }
     })
 }
