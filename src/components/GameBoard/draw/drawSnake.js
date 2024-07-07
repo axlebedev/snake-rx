@@ -72,25 +72,26 @@ const drawEyesBlack = ({ ctx, snakeSegments, nextDirection, x, y }) => {
   const radius = 0.25 // 0.25 * cellWidth
   const radiusBlack = 0.1 // * cellWidth
   const radiusPx = radiusBlack * cellSize
+  const coef = 1.5 // Чем больше - тем дальше зрачок от центра глаза
   ctx.fillStyle = colors.eyeBlack
   const { left, top } = last(snakeSegments)
 
   ctx.beginPath()
   if (nextDirection === directions.top) {
-    ctx.arc(x(left - radius), y(top - radius - radiusBlack * 1.5), radiusPx, 0, 2 * Math.PI)
-    ctx.arc(x(left + radius), y(top - radius - radiusBlack * 1.5), radiusPx, 0, 2 * Math.PI)
+    ctx.arc(x(left - radius), y(top - radius - radiusBlack * coef), radiusPx, 0, 2 * Math.PI)
+    ctx.arc(x(left + radius), y(top - radius - radiusBlack * coef), radiusPx, 0, 2 * Math.PI)
   }
   if (nextDirection === directions.bottom) {
-    ctx.arc(x(left - radius), y(top + radius + radiusBlack * 1.5), radiusPx, 0, 2 * Math.PI)
-    ctx.arc(x(left + radius), y(top + radius + radiusBlack * 1.5), radiusPx, 0, 2 * Math.PI)
+    ctx.arc(x(left - radius), y(top + radius + radiusBlack * coef), radiusPx, 0, 2 * Math.PI)
+    ctx.arc(x(left + radius), y(top + radius + radiusBlack * coef), radiusPx, 0, 2 * Math.PI)
   }
   if (nextDirection === directions.left) {
-    ctx.arc(x(left - radius - radiusBlack * 1.5), y(top + radius), radiusPx, 0, 2 * Math.PI)
-    ctx.arc(x(left - radius - radiusBlack * 1.5), y(top - radius), radiusPx, 0, 2 * Math.PI)
+    ctx.arc(x(left - radius - radiusBlack * coef), y(top + radius), radiusPx, 0, 2 * Math.PI)
+    ctx.arc(x(left - radius - radiusBlack * coef), y(top - radius), radiusPx, 0, 2 * Math.PI)
   }
   if (nextDirection === directions.right) {
-    ctx.arc(x(left + radius + radiusBlack * 1.5), y(top + radius), radiusPx, 0, 2 * Math.PI)
-    ctx.arc(x(left + radius + radiusBlack * 1.5), y(top - radius), radiusPx, 0, 2 * Math.PI)
+    ctx.arc(x(left + radius + radiusBlack * coef), y(top + radius), radiusPx, 0, 2 * Math.PI)
+    ctx.arc(x(left + radius + radiusBlack * coef), y(top - radius), radiusPx, 0, 2 * Math.PI)
   }
   ctx.fill()
 }
