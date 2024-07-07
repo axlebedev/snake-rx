@@ -1,4 +1,4 @@
-import { interval, fromEvent } from 'rxjs'
+import { interval, fromEvent, BehaviorSubject } from 'rxjs'
 
 import { directions } from '@/consts'
 
@@ -9,10 +9,10 @@ import { apple$ } from './apple.store'
 import { doNextTurn, getNewApple } from './logic'
 
 export const startGame = () => {
-  const mainInterval$ = interval(1000)
+  const mainInterval$ = new BehaviorSubject(1000)
 
   const sub = mainInterval$
-    .subscribe(() => {
+    .subscribe((value) => {
       const snakeSegments = snakeSegments$.value
       const direction = direction$.value
       const apple = apple$.value
@@ -28,6 +28,10 @@ export const startGame = () => {
       }
 
       snakeSegments$.next(nextTurnValues.snakeSegments)
+      const nextValue = 1000 - Math.sqrt(snakeSegments.length) * 50
+      setTimeout(() => {
+        mainInterval$.next(nextValue)
+      }, nextValue)
     })
 
   const keyDowns = fromEvent(document, 'keydown')
