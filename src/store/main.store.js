@@ -1,4 +1,4 @@
-import { interval, fromEvent, BehaviorSubject } from 'rxjs'
+import { fromEvent, BehaviorSubject } from 'rxjs'
 
 import { directions } from '@/consts'
 
@@ -9,34 +9,7 @@ import { apple$ } from './apple.store'
 import { doNextTurn, getNewApple } from './logic'
 
 export const startGame = () => {
-  const mainInterval$ = new BehaviorSubject(1000)
-
-  const sub = mainInterval$
-    .subscribe((value) => {
-      const snakeSegments = snakeSegments$.value
-      const direction = direction$.value.next
-      const apple = apple$.value
-      const nextTurnValues = doNextTurn({ snakeSegments, direction, apple })
-
-      if (nextTurnValues.gameover) {
-        sub.unsubscribe()
-        return
-      }
-
-      if (nextTurnValues.shouldUpdateApple) {
-        apple$.next(getNewApple(nextTurnValues.snakeSegments))
-      }
-
-      snakeSegments$.next(nextTurnValues.snakeSegments)
-      direction$.next({ current: direction, next: direction })
-
-      const nextValue = 1000 - Math.sqrt(snakeSegments.length) * 50
-      setTimeout(() => {
-        mainInterval$.next(nextValue)
-      }, nextValue)
-    })
-
-  const keyDowns = fromEvent(document, 'keydown')
+  const keyDownsSubscription = fromEvent(document, 'keydown')
     .subscribe((keydown) => {
       const currentDirection = direction$.value.current
       if (keydown.code === 'ArrowDown' && currentDirection !== directions.top) {
@@ -51,5 +24,33 @@ export const startGame = () => {
       if (keydown.code === 'ArrowRight' && currentDirection !== directions.left) {
         direction$.next({ current: currentDirection, next: directions.right })
       }
+    })
+
+  const mainInterval$ = new BehaviorSubject(1000)
+
+  const intervalSubscription = mainInterval$
+    .subscribe((value) => {
+      const snakeSegments = snakeSegments$.value
+      const direction = direction$.value.next
+      const apple = apple$.value
+      const nextTurnValues = doNextTurn({ snakeSegments, direction, apple })
+
+      if (nextTurnValues.gameover) {
+        intervalSubscription.unsubscribe()
+        keyDownsSubscription.unsubscribe()
+        return
+      }
+
+      if (nextTurnValues.shouldUpdateApple) {
+        apple$.next(getNewApple(nextTurnValues.snakeSegments))
+      }
+
+      snakeSegments$.next(nextTurnValues.snakeSegments)
+      direction$.next({ current: direction, next: direction })
+
+      const nextValue = 1000 - Math.sqrt(snakeSegments.length) * 50
+      setTimeout(() => {
+        mainInterval$.next(nextValue)
+      }, nextValue)
     })
 }
