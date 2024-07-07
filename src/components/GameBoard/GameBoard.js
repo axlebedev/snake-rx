@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react'
 
 import { snakeSegments$ } from '@/store/snakeSegments.store'
 import { apple$ } from '@/store/apple.store'
+import { direction$ } from '@/store/direction.store'
 import { startGame } from '@/store/main.store'
 import {
   boardWidth,
@@ -20,12 +21,32 @@ export const GameBoard = () => {
 
     snakeSegments$
       .subscribe((snakeSegments) => {
-        redrawCanvas({ canvas: canvasRef.current, snakeSegments, apple: apple$.value })
+        redrawCanvas({
+          canvas: canvasRef.current,
+          snakeSegments,
+          apple: apple$.value,
+          nextDirection: direction$.value.next,
+        })
       })
 
     apple$
       .subscribe((apple) => {
-        redrawCanvas({ canvas: canvasRef.current, snakeSegments: snakeSegments$.value, apple })
+        redrawCanvas({
+          canvas: canvasRef.current,
+          snakeSegments: snakeSegments$.value,
+          apple,
+          nextDirection: direction$.value.next,
+        })
+      })
+
+    direction$
+      .subscribe((newDirection) => {
+        redrawCanvas({
+          canvas: canvasRef.current,
+          snakeSegments: snakeSegments$.value,
+          apple: apple$.value,
+          nextDirection: newDirection.next,
+        })
       })
   }, [])
 

@@ -11,4 +11,6 @@ export const colors = {
   grid: '#DDDDDD',
   snake: '#90ee90',
   apple: '#ed2939',
+  eyeWhite: '#FF0000',
+  eyeBlack: '#000000',
 }
