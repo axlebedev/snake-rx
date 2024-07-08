@@ -3,6 +3,7 @@ import {
   BehaviorSubject,
   switchMap,
   map,
+  filter,
 } from 'rxjs'
 
 import { directions } from '@/consts'
@@ -13,6 +14,8 @@ import { apple$ } from './apple.store'
 import { message$ } from './message.store'
 
 import { doNextTurn, getNewApple } from './logic'
+
+const swipeTolerance = 10 // px
 
 const onNewDirection = (newDirection) => {
   const currentDirection = direction$.value.current
@@ -65,6 +68,8 @@ export const startGame = () => {
                 dTop: end.clientY - start.clientY,
               }
             }),
+            filter(({ dLeft, dTop }) =>
+              Math.abs(dLeft) >= swipeTolerance || Math.abs(dTop) >= swipeTolerance),
             map(({ dLeft, dTop }) => {
               if (Math.abs(dLeft) > Math.abs(dTop)) {
                 return dLeft < 0 ? directions.left : directions.right
