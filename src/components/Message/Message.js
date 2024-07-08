@@ -5,17 +5,23 @@ import { message$ } from '@/store/message.store'
 import './Message.scss'
 
 export const Message = () => {
-  const [text, setText] = useState(null)
+  const [isActive, setActive] = useState(null)
 
   useEffect(() => {
-    message$.subscribe((value) => setText(value))
+    message$.subscribe(({ isActive }) => setActive(isActive))
   }, [])
 
-  if (!text) {
+  if (!isActive) {
     return null
   }
 
   return (
-    <div className="Message">{text}</div>
+    <div
+      className="Message"
+      style={{ backdropFilter: `blur(${message$.value.blurRadius}px)` }}
+
+    >
+      {message$.value.text}
+    </div>
   )
 }

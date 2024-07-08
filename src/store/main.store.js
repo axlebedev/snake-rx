@@ -33,8 +33,10 @@ export const startGame = () => {
   const onNewDirection = (newDirection) => {
     if (newDirection === null) {
       gameIsRunning$.next(false)
+      message$.next({ isActive: true, text: 'Dont stop', blurRadius: 1 })
     } else {
       gameIsRunning$.next(true)
+      message$.next({ isActive: false })
       direction$.next({
         current: direction$.value.current,
         next: newDirection,
@@ -116,7 +118,7 @@ export const startGame = () => {
       if (nextTurnValues.gameover) {
         intervalSubscription.unsubscribe()
         keyDownsSubscription.unsubscribe()
-        message$.next('YOU DIED')
+        message$.next({ isActive: true, text: 'YOU DIED', blurRadius: 5 })
         return
       }
 
