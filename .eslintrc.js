@@ -66,7 +66,7 @@ module.exports = {
     'curly': ['error', 'all'],
 
     'object-curly-spacing': ['error', 'always'],
-    'arrow-body-style': ['error', 'always'],
+    // 'arrow-body-style': ['error', 'always'],
     // 'import/no-extraneous-dependencies': ['off', { 'devDependencies': false }],
     'max-len': ['error', { 'code': 100, 'ignoreComments': true }],
     'semi': ['error', 'never'],

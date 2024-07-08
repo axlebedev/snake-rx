@@ -79,9 +79,7 @@ const getRandomPos = () => {
 export const getNewApple = (snakeSegments) => {
   // 1..cellNum
   let newApple = getRandomPos()
-  while (snakeSegments.find((segment) => {
-    return isEqual(segment, newApple)
-  })) {
+  while (snakeSegments.find((segment) => isEqual(segment, newApple))) {
     newApple = getRandomPos()
   }
   return newApple

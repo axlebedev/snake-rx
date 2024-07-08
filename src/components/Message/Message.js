@@ -8,9 +8,7 @@ export const Message = () => {
   const [text, setText] = useState(null)
 
   useEffect(() => {
-    message$.subscribe((value) => {
-      setText(value)
-    })
+    message$.subscribe((value) => setText(value))
   }, [])
 
   if (!text) {
