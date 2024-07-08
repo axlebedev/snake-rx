@@ -1,5 +1,5 @@
 export const cellSize = 20 // px, размер одной клетки
-export const cellNum = 30 // шт., кол-во клеток на поле
+export const cellNum = 6 // шт., кол-во клеток на поле
 
 export const boardWidth = cellSize * cellNum
 export const boardHeight = cellSize * cellNum
