@@ -9,6 +9,7 @@ const dSegment = {
   [directions.top]: { top: -1, left: 0 },
   [directions.bottom]: { top: 1, left: 0 },
 }
+
 const getNewSegment = ({ head, direction }) => {
   return {
     top: head.top + dSegment[direction].top,

@@ -17,23 +17,31 @@ import { doNextTurn, getNewApple } from './logic'
 
 const swipeTolerance = 10 // px
 
-const onNewDirection = (newDirection) => {
-  const currentDirection = direction$.value.current
-  if (newDirection === directions.bottom && currentDirection !== directions.top) {
-    direction$.next({ current: currentDirection, next: directions.bottom })
-  }
-  if (newDirection === directions.top && currentDirection !== directions.bottom) {
-    direction$.next({ current: currentDirection, next: directions.top })
-  }
-  if (newDirection === directions.left && currentDirection !== directions.right) {
-    direction$.next({ current: currentDirection, next: directions.left })
-  }
-  if (newDirection === directions.right && currentDirection !== directions.left) {
-    direction$.next({ current: currentDirection, next: directions.right })
-  }
-}
-
 export const startGame = () => {
+  const gameIsRunning$ = new BehaviorSubject(false)
+
+  const isNotOppositeDirection = (dir) => {
+    const { current } = direction$.value
+    return !(
+      dir === directions.left && current === directions.right
+      || dir === directions.right && current === directions.left
+      || dir === directions.top && current === directions.bottom
+      || dir === directions.bottom && current === directions.top
+    )
+  }
+
+  const onNewDirection = (newDirection) => {
+    if (newDirection === null) {
+      gameIsRunning$.next(false)
+    } else {
+      gameIsRunning$.next(true)
+      direction$.next({
+        current: direction$.value.current,
+        next: newDirection,
+      })
+    }
+  }
+
   const keyDownsSubscription = fromEvent(document, 'keydown')
     .pipe(
       map((keydown) => {
@@ -41,14 +49,16 @@ export const startGame = () => {
         case 'ArrowDown':
           return directions.bottom
         case 'ArrowUp':
-          return directions.up
+          return directions.top
         case 'ArrowLeft':
           return directions.left
         case 'ArrowRight':
-        default:
           return directions.right
+        default:
+          return null
         }
       }),
+      filter(isNotOppositeDirection),
     )
     .subscribe(onNewDirection)
 
@@ -68,14 +78,16 @@ export const startGame = () => {
                 dTop: end.clientY - start.clientY,
               }
             }),
-            filter(({ dLeft, dTop }) =>
-              Math.abs(dLeft) >= swipeTolerance || Math.abs(dTop) >= swipeTolerance),
             map(({ dLeft, dTop }) => {
+              if (Math.abs(dLeft) < swipeTolerance && Math.abs(dTop) < swipeTolerance) {
+                return null
+              }
               if (Math.abs(dLeft) > Math.abs(dTop)) {
                 return dLeft < 0 ? directions.left : directions.right
               }
               return dTop < 0 ? directions.top : directions.bottom
             }),
+            filter(isNotOppositeDirection),
           )
       }),
     )
@@ -83,8 +95,19 @@ export const startGame = () => {
 
   const mainInterval$ = new BehaviorSubject(1000)
 
+  const runInterval = () => {
+    const nextValue = 1000 - Math.sqrt(snakeSegments$.value.length) * 100
+    setTimeout(() => {
+      mainInterval$.next(nextValue)
+    }, nextValue)
+  }
   const intervalSubscription = mainInterval$
     .subscribe(() => {
+      if (!gameIsRunning$.value) {
+        runInterval()
+        return
+      }
+
       const snakeSegments = snakeSegments$.value
       const direction = direction$.value.next
       const apple = apple$.value
@@ -104,9 +127,6 @@ export const startGame = () => {
       snakeSegments$.next(nextTurnValues.snakeSegments)
       direction$.next({ current: direction, next: direction })
 
-      const nextValue = 1000 - Math.sqrt(snakeSegments.length) * 100
-      setTimeout(() => {
-        mainInterval$.next(nextValue)
-      }, nextValue)
+      runInterval()
     })
 }
