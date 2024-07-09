@@ -6,12 +6,15 @@
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack serve --config config/webpack.dev.babel.js",
     "build": "cross-env NODE_ENV=production webpack --config config/webpack.prod.babel.js",
-    "lint": "eslint 'src/**/*.js'"
+    "lint": "eslint 'src/**/*.js'",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:taniarascia/webpack-boilerplate"
+    "url": "git+https://github.com/axlebedev/snake-rx.git"
   },
+  "homepage": "http://axlebedev.github.io/snake-rx",
   "dependencies": {
     "@babel/core": "^7.24.6",
     "@babel/eslint-parser": "^7.24.7",
@@ -46,6 +49,7 @@
   },
   "devDependencies": {
     "eslint": "^8.57.0",
-    "eslint-config-google": "^0.14.0"
+    "eslint-config-google": "^0.14.0",
+    "gh-pages": "^6.1.1"
   }
 }
